@@ -1,0 +1,284 @@
+@startuml
+top to bottom direction
+skinparam headerFontSize 30
+skinparam headerFontStyle bold
+skinparam classAttributeIconSize 0
+scale 1.0
+package android.support.design {
+class android.support.design.R {
+.. Interiors ..
++ {static} class anim
++ {static} class attr
++ {static} class bool
++ {static} class color
++ {static} class dimen
++ {static} class drawable
++ {static} class id
++ {static} class integer
++ {static} class layout
++ {static} class string
++ {static} class style
++ {static} class styleable
+}
+
+}
+package android.support.test.espresso {
+package android.support.test.espresso.contrib {
+class android.support.test.espresso.contrib.R {
+.. Interiors ..
++ {static} class attr
++ {static} class dimen
++ {static} class id
++ {static} class string
++ {static} class styleable
+}
+
+}
+class android.support.test.espresso.R {
+.. Interiors ..
++ {static} class string
+}
+
+}
+package android.support.test.rule {
+class android.support.test.rule.R {
+.. Interiors ..
++ {static} class string
+}
+
+}
+package android.support.v7.appcompat {
+class android.support.v7.appcompat.R {
+.. Interiors ..
++ {static} class anim
++ {static} class attr
++ {static} class bool
++ {static} class color
++ {static} class dimen
++ {static} class drawable
++ {static} class id
++ {static} class integer
++ {static} class layout
++ {static} class string
++ {static} class style
++ {static} class styleable
+}
+
+}
+package android.support.v7.cardview {
+class android.support.v7.cardview.R {
+.. Interiors ..
++ {static} class attr
++ {static} class color
++ {static} class dimen
++ {static} class style
++ {static} class styleable
+}
+
+}
+package android.support.v7.recyclerview {
+class android.support.v7.recyclerview.R {
+.. Interiors ..
++ {static} class attr
++ {static} class dimen
++ {static} class id
++ {static} class styleable
+}
+
+}
+package com.mikelle.qufoi.app {
+package com.mikelle.qufoi.app.helper {
+class com.mikelle.qufoi.app.helper.ApiLevelHelper {
+.. Methods ..
+.. Static ..
++ {static} isAtLeast() : boolean
++ {static} isLowerThan() : boolean
+}
+
+}
+package com.mikelle.qufoi.app.model {
+package com.mikelle.qufoi.app.model.quiz {
+enum com.mikelle.qufoi.app.model.quiz.QuizType  {
+.. Fields  ..
+-mJsonName : String
+-mType : Class
+.. Methods ..
++getJsonName() : String
++getType() : Class
+.. Static ..
++ {static} ALPHA_PICKER : QuizType
++ {static} FILL_BLANK : QuizType
++ {static} FILL_TWO_BLANKS : QuizType
++ {static} FOUR_QUARTER : QuizType
++ {static} MULTI_SELECT : QuizType
++ {static} PICKER : QuizType
++ {static} SINGLE_SELECT : QuizType
++ {static} SINGLE_SELECT_ITEM : QuizType
++ {static} TOGGLE_TRANSLATE : QuizType
++ {static} TRUE_FALSE : QuizType
++ {static} valueOf() : QuizType
++ {static} values() : QuizType[]
+}
+
+}
+enum com.mikelle.qufoi.app.model.Theme  {
+.. Fields  ..
+-mAccentColorId : int
+-mColorPrimaryDarkId : int
+-mColorPrimaryId : int
+-mStyleId : int
+-mTextColorPrimaryId : int
+-mWindowBackgroundColorId : int
+.. Methods ..
++getAccentColor() : int
++getPrimaryColor() : int
++getPrimaryDarkColor() : int
++getStyleId() : int
++getTextPrimaryColor() : int
++getWindowBackgroundColor() : int
+.. Static ..
++ {static} blue : Theme
++ {static} green : Theme
++ {static} purple : Theme
++ {static} qufoi : Theme
++ {static} red : Theme
++ {static} valueOf() : Theme
++ {static} values() : Theme[]
++ {static} yellow : Theme
+}
+enum com.mikelle.qufoi.app.model.Avatar  {
+.. Fields  ..
+-mResId : int
+.. Methods ..
++getDrawableId() : int
++getNameForAccessibility() : String
+.. Static ..
++ {static} EIGHT : Avatar
++ {static} ELEVEN : Avatar
++ {static} FIFTEEN : Avatar
++ {static} FIVE : Avatar
++ {static} FOUR : Avatar
++ {static} FOURTEEN : Avatar
++ {static} NINE : Avatar
++ {static} ONE : Avatar
++ {static} SEVEN : Avatar
++ {static} SIX : Avatar
++ {static} SIXTEEN : Avatar
++ {static} TEN : Avatar
++ {static} THIRTEEN : Avatar
++ {static} THREE : Avatar
++ {static} TWELVE : Avatar
++ {static} TWO : Avatar
++ {static} valueOf() : Avatar
++ {static} values() : Avatar[]
+- {static} TAG : String
+}
+interface com.mikelle.qufoi.app.model.JsonAttributes  {
+.. Fields  ..
+.. Static ..
++ {static} ANSWER : String
++ {static} END : String
++ {static} ID : String
++ {static} MAX : String
++ {static} MIN : String
++ {static} NAME : String
++ {static} OPTIONS : String
++ {static} QUESTION : String
++ {static} QUIZZES : String
++ {static} SCORES : String
++ {static} SOLVED : String
++ {static} START : String
++ {static} STEP : String
++ {static} THEME : String
++ {static} TYPE : String
+.. Interiors ..
++ {abstract}  {static} interface QuizType
+}
+
+}
+package com.mikelle.qufoi.app.persistence {
+interface com.mikelle.qufoi.app.persistence.CategoryTable  {
+.. Fields  ..
+.. Static ..
++ {static} COLUMN_ID : String
++ {static} COLUMN_NAME : String
++ {static} COLUMN_SCORES : String
++ {static} COLUMN_SOLVED : String
++ {static} COLUMN_THEME : String
++ {static} CREATE : String
++ {static} NAME : String
++ {static} PROJECTION : String[]
+}
+interface com.mikelle.qufoi.app.persistence.QuizTable  {
+.. Fields  ..
+.. Static ..
++ {static} COLUMN_ANSWER : String
++ {static} COLUMN_END : String
++ {static} COLUMN_ID : String
++ {static} COLUMN_MAX : String
++ {static} COLUMN_MIN : String
++ {static} COLUMN_OPTIONS : String
++ {static} COLUMN_QUESTION : String
++ {static} COLUMN_SOLVED : String
++ {static} COLUMN_START : String
++ {static} COLUMN_STEP : String
++ {static} COLUMN_TYPE : String
++ {static} CREATE : String
++ {static} FK_CATEGORY : String
++ {static} NAME : String
++ {static} PROJECTION : String[]
+}
+
+}
+package com.mikelle.qufoi.app.test {
+class com.mikelle.qufoi.app.test.R {
+.. Interiors ..
++ {static} class attr
++ {static} class string
+}
+class com.mikelle.qufoi.app.test.BuildConfig {
+.. Fields  ..
+.. Static ..
++ {static} APPLICATION_ID : String
++ {static} BUILD_TYPE : String
++ {static} DEBUG : boolean
++ {static} FLAVOR : String
++ {static} VERSION_CODE : int
++ {static} VERSION_NAME : String
+}
+
+}
+class com.mikelle.qufoi.app.R {
+.. Interiors ..
++ {static} class anim
++ {static} class animator
++ {static} class array
++ {static} class attr
++ {static} class bool
++ {static} class color
++ {static} class dimen
++ {static} class drawable
++ {static} class id
++ {static} class integer
++ {static} class layout
++ {static} class menu
++ {static} class mipmap
++ {static} class raw
++ {static} class string
++ {static} class style
++ {static} class styleable
++ {static} class transition
+}
+class com.mikelle.qufoi.app.BuildConfig {
+.. Fields  ..
+.. Static ..
++ {static} APPLICATION_ID : String
++ {static} BUILD_TYPE : String
++ {static} DEBUG : boolean
++ {static} FLAVOR : String
++ {static} VERSION_CODE : int
++ {static} VERSION_NAME : String
+}
+
+}
+@enduml

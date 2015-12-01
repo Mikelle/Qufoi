@@ -1,0 +1,31 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'org.jetbrains.kotlin:kotlin-android-extensions:1.0.0-beta-1103'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+afterEvaluate { project ->
+    project.tasks.findAll {
+        it.name.startsWith('compile') && it.name.endsWith('DebugTestJava')
+    }.each { Task task ->
+        task.dependsOn copyKotlinToTest
+    }
+}
+
+task copyKotlinToTest(type: Copy) {
+    from new File(buildDir, 'tmp/kotlin-classes/debug')
+    into new File(buildDir, 'tmp/kotlin-classes/debugTest')
+}

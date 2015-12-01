@@ -1,0 +1,661 @@
+[
+  {
+    "name": "Основы программирования",
+    "id": "basics",
+    "theme": "green",
+    "quizzes": [
+      {
+        "type": "single-select-item",
+        "question": "Какая разница между циклами с предусловием и постусловием?",
+        "options": [
+          "Тело цикла с предусловием может не выполниться ни разу",
+          "Принципиальной разницы нет",
+          "Цикл с постусловием - это оптимизированная версия цикла с предусловием",
+          "Цикл с предусловием выполняется быстрее",
+          "Тело цикла с постусловием может не выполниться ни разу"
+        ],
+        "answer": [0]
+      },
+      {
+        "type": "true-false",
+        "question": "Дано булево выражение not A or A and not B. Чему равен результат при A=true и B=false",
+        "answer": true
+      },
+      {
+        "type": "multi-select",
+        "question": "Выберите основные операции со стеком",
+        "options": [
+          "peek (прочитать головной элемент)",
+          "previous (прочитать предыдущий элемент)",
+          "parse (найти позицию элемента)",
+          "pop (удалить элемент)",
+          "pool (объединить элементы в пул)",
+          "push (добавить элемент)"
+        ],
+        "answer": [
+          0,
+          3,
+          5
+        ]
+      },
+      {
+        "type": "four-quarter",
+        "question": "Ссылочный тип данных, предназначенный для определения расположения данных",
+        "options": [
+          "Ссылка",
+          "Указатель",
+          "Индекс",
+          "Адрес"
+        ],
+        "answer": [1]
+      },
+      {
+        "type": "single-select-item",
+        "question": "Дано булевое выражение not (not A and not B). Укажите корректный эквивалент для него",
+        "options": [
+          "A and B",
+          "not A and not B",
+          "not A or not B",
+          "A or B"
+        ],
+        "answer": [3]
+      },
+      {
+        "type": "multi-select",
+        "question": "Выберите все варианты логических выражений, которые могут дать результат x.\nПримечание: + (плюс) - логическое ИЛИ, * (звездочка) - логическое И",
+        "options": [
+          "x+x*y",
+          "x+x",
+          "x*x",
+          "x*(x+y)",
+          "y*(x+y)"
+        ],
+        "answer": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      {
+        "type": "single-select",
+        "question": "Что такое приведение типа?",
+        "options": [
+          "Определение типа переменной во время её объявления",
+          "Преобразование значения переменной одного типа в значение другого типа",
+          "Определение типа переменной во время выполнения программы",
+          "Преобразование типа переменной из одного в другое"
+        ],
+        "answer": [1]
+      },
+      {
+        "type": "multi-select",
+        "question": "Каких парадигм программирования НЕ существует?",
+        "options": [
+          "Векторная",
+          "Модульная(структурная)",
+          "Процедурная",
+          "Объектно-ориентированная"
+        ],
+        "answer": [0]
+      },
+      {
+        "type": "multi-select",
+        "question": "Какие типы синтаксиса операций существуют?",
+        "options": [
+          "Префиксный",
+          "Постфиксный",
+          "Инфиксный",
+          "Суффиксный",
+          "Аутфиксный"
+        ],
+        "answer": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "type": "single-select",
+        "question": "Дан некоторый массив байт размерность 20 на 20. Могут ли все элементы массива быть разными?",
+        "options": [
+          "Да, но для определения этого необходим перебор элементов массива",
+          "Да, такое возможно",
+          "Нет, в любом случае найдутся одинаковые"
+        ],
+        "answer": [2]
+      }
+    ],
+    "scores": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "solved": "false"
+  },
+  {
+    "name": "Основы Java",
+    "id": "java",
+    "theme": "yellow",
+    "quizzes": [
+      {
+        "type": "true-false",
+        "question": "Можно ли динамически менять размер массива?",
+        "answer": false
+      },
+      {
+        "type": "multi-select",
+        "question": "Каким образом можно запретить наследование класса (речь идет о top-level классах)?",
+        "options": [
+          "Добавить модификатор abstract",
+          "Добавить модификатор final",
+          "Добавить модификатор private",
+          "Не определять конструктор",
+          "Объявить все конструкторы класса private",
+          "Запретить наследование нельзя"
+        ],
+        "answer": [
+          1,
+          4
+        ]
+      },
+      {
+        "type": "multi-select",
+        "question": "Дан класс:\npublic class Clazz {\n  // место для кода\n}\nКакие из перечисленных объявлений можно добавить в класс, чтобы он успешно компилировался?",
+        "options": [
+          "final long Byte = 0;",
+          "final long byte = 0;",
+          "final long string = 0;",
+          "final long Char = 0;",
+          "final long char = 0;",
+          "final long String = 0;"
+        ],
+        "answer": [
+          0,
+          2,
+          3,
+          5
+        ]
+      },
+      {
+        "type": "single-select-item",
+        "question": "В каком порядке должны размещаться следующие операторы?",
+        "options": [
+          "1. Package statement 2. Imports 3. Class or interface definitions",
+          "1. Imports 2. Package statement 3. Class or interface definitions",
+          "Любой порядок"
+        ],
+        "answer": [0]
+      },
+      {
+        "type": "single-select-item",
+        "question": "Дана строка:\nString s = \"true,false\"\nКаким способом можно сформировать новую строку, равную \"test\"?",
+        "options": [
+          "String n = s[1] + s[4] + s[9] + s[1];",
+          "String n = s[0] + s[3] + s[8] + s[0];",
+          "String n = s.first() + s.last() + \"s\" + s.first();",
+          "Ни один из предложенных"
+        ],
+        "answer": [3]
+      },
+      {
+        "type": "multi-select",
+        "question": "Отметьте варианты ответа, в которых пары чисел равны друг-другу:",
+        "options": [
+          "5 и 05",
+          "0x5A и 90L",
+          "10 и 010",
+          "9 и 09"
+        ],
+        "answer": [
+          0,
+          1
+        ]
+      },
+      {
+        "type": "true-false",
+        "question": "Откомпилируется ли следующий код?\npublic class Person {\n  public final String name;\n  int age;\n} ",
+        "answer": false
+      },
+      {
+        "type": "true-false",
+        "question": "Гарантированно ли начнется сборка мусора после вызова Runtime.getRuntime().gc()?",
+        "answer": false
+      },
+      {
+        "type": "single-select-item",
+        "question": "Что произойдет при попытке скомпилировать и запустить данный код?\npublic class PrintTest {\n  public static void main(String[] args) {\n    System.out.println(\"1\" + 2 + 3);\n  }\n}",
+        "options": [
+          "123",
+          "15",
+          "Ошибка компиляции в System.out.println(\"1\" + 2 + 3);",
+          "Во время выполнения возникнет ClassCastException"
+        ],
+        "answer": [0]
+      },
+      {
+        "type": "single-select",
+        "question": "Выберите единственный верный вариант компиляции и выполнения кода.\npublic class MyThread extends Thread {\n  public static void main(String[] args) {\n    new MyThread().start();\n  }\n} ",
+        "options": [
+          "Возникнет исключение во время выполнения.",
+          "Программа не выведет ничего.",
+          "Возникнет ошибка компиляции.",
+          "Ничего из перечисленного.",
+          "Программа зациклится"
+        ],
+        "answer": [1]
+      }
+    ],
+    "scores": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "solved": "false"
+  },
+  {
+    "name": "Основы ООП",
+    "id": "oop",
+    "theme": "blue",
+    "quizzes": [
+      {
+        "type": "single-select-item",
+        "question": "Выберите наиболее подходящее определение Класса.",
+        "options" : [
+          "Тип, описывающий характеристики и поведение объекта",
+          "Тип, описывающий поведение некоторой сущности",
+          "Тип, содержащий набор функций",
+          "Тип, который отображает состояние некоторого объекта"
+        ],
+        "answer": [0]
+      },
+      {
+        "type": "single-select-item",
+        "question": "Термин \"наследование\" обозначает, что...",
+        "options": [
+          "В производных классах присутствует часть состояния родительского класса.",
+          "Производные классы содержат поля и методы родительского.",
+          "Производные классы содержат методы родительского класса.",
+          "Производные классы наследуют поля родительского класса.",
+          "Производные классы наследуют модификаторы доступа членов родительского класса."
+        ],
+        "answer": [1]
+      },
+      {
+        "type": "true-false",
+        "question": "Можно ли наследовать конструктор и деструктор базового класса?",
+        "answer": false
+      },
+      {
+        "type": "true-false",
+        "question": "Конструктор никогда не возвращает явный тип данных",
+        "answer": true
+      },
+      {
+        "type": "multi-select",
+        "question": "Перечислите недостатки ООП парадигмы.",
+        "options": [
+          "Невозможность повторного использования кода",
+          "Избыточность",
+          "Невозможность абстракции",
+          "Недостаточная гибкость в создании иерархии",
+          "Поддержка языком ООП требует дополнительных ресурсов"
+        ],
+        "answer": [
+          1,
+          4
+        ]
+      },
+      {
+        "type": "multi-select",
+        "question": "Выберите все порождающие шаблоны проектирования:",
+        "options": [
+          "Фабричный метод (Factory method)",
+          "Фасад (Facade)",
+          "Прототип (Prototype)",
+          "Одиночка (Singleton)",
+          "Строитель (Builder)",
+          "Пул одиночек (Multiton)"
+        ],
+        "answer": [
+          0,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "type": "four-quarter",
+        "question": "Метод, который определяет состояние объекта, не изменяя его.",
+        "options": [
+          "Селектор",
+          "Модификатор",
+          "Сеттер",
+          "Конструктор"
+        ],
+        "answer": [0]
+      },
+      {
+        "type": "single-select",
+        "question": "Какая разница между объектом и классом?",
+        "options": [
+          "Класс - это исходный код, а объект - скомпилированный и выполняемый код",
+          "Класс описывает категорию, к которой могут либо принадлежать, либо не принадлежать объекты данного класса",
+          "Класс может иметь много экземпляров, а объект - один или ниодного",
+          "Класс может инстанциировать объекты, а сам объект - нет",
+          "Объект - это экземпляр класса"
+        ],
+        "answer": [4]
+      },
+      {
+        "type": "single-select",
+        "question": "High Cohesion (сильное сцепление) - это ОО принцип, наиболее ассоциирующийся с ...",
+        "options": [
+          "Сокрытием реализации",
+          "Тем, как много классы знают про другие только через их API",
+          "Тем, что класс спланирован с единственным и конкретным назначением",
+          "Разрешением одному объекту быть видимым как разные типы"
+        ],
+        "answer": [2]
+      },
+      {
+        "type": "single-select",
+        "question": "Как в терминах ООП называется объект, который не может быть изменён после создания?",
+        "options": [
+          "Internal object",
+          "Abstract object",
+          "Immutable object",
+          "Sealed object",
+          "Все варианты",
+          "Среди вариантов нет правильного ответа"
+        ],
+        "answer": [2]
+      }
+    ],
+    "scores": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "solved": "false"
+  },
+  {
+    "name": "ООП в Java",
+    "id": "java_oop",
+    "theme": "red",
+    "quizzes": [
+      {
+        "type": "fill-blank",
+        "question": "Что напечатает следующий код:\nclass A {\n  public A() { System.out.print(\"A\"); }\n}\nclass B extends A {\n  public B() { System.out.print(\"B\");}\n}\npublic class C extends B {\n\n  public C() { System.out.print(\"C\"); }\n\n  public static void main(String[] args) {\n    C c = new C();\n  }\n}",
+        "answer": "ABC"
+      },
+      {
+        "type": "single-select-item",
+        "question": "Какое утверждение верно по отношению к данному коду?\n class A<T1, T2>{      //1\n  public <T1> fun(){} //2\n  public <T2> fun(){} //3\n}",
+        "options": [
+          "Код не компилируется из-за строки 1",
+          "Код не компилируется из-за строки 2 и 3",
+          "Код не компилируется из-за строки 2 или 3",
+          "Код компилируется успешно"
+        ],
+        "answer": [1]
+      },
+      {
+        "type": "single-select",
+        "question": "Общее поведение супер класса может быть передано подкласу с помощью ключевого слова:",
+        "options": [
+          "inherits",
+          "implements",
+          "extend",
+          "implement",
+          "extends"
+        ],
+        "answer": [4]
+      },
+      {
+        "type": "single-select",
+        "question": "Каким будет результат выполнения данного кода?\npublic class Compare\n  {public static void main(String[] args) {\n    String s1 = new String(\"Hello\");\n    String s2 = new String(\"Hello\");\n\n    if (s1 == s2)\n{      System.out.println(\"True\");\n    } else {\n      System.out.println(\"False\");\n    }  \n}\n}",
+        "options": [
+          "True",
+          "False",
+          "Ошибка компиляции",
+          "Ошибка времени выполнения (RuntimeException"
+        ],
+        "answer": [1]
+      },
+      {
+        "type": "multi-select",
+        "question": "Какие исключения ПОТЕНЦИАЛЬНО могут возникнуть при присваивании одной переменной объектного типа, другой переменной ЛЮБОГО типа:\na = b;\nпри условии что компиляция прошла успешно.",
+        "options": [
+          "ClassCastException",
+          "IndexOutOfBoundsException",
+          "OutOfMemoryError",
+          "NullPointerException",
+          "ArithmeticException"
+        ],
+        "answer": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": "multi-select",
+        "question": "Какие из следующих утверждений верны для Java 8?",
+        "options": [
+          "В отличие от интерфейсов, множественное наследование классов допускается.",
+          "Абстрактный класс может быть частично реализован, а интерфейс нет.",
+          "Абстрактный класс может содержать protected и static члены, а интерфейс нет.",
+          "В отличие от классов, множественное наследование интерфейсов допускается.",
+          "Интерфейс может быть частично реализован, а абстрактный класс нет.",
+          "Интерфейс может содержать protected и static члены, а абстрактный класс нет."
+        ],
+        "answer": [
+          2,
+          3
+        ]
+      },
+      {
+        "type": "single-select-item",
+        "question": "Даны следующие классы:\nclass Parent { }\nclass DerivedOne extends Parent { }\nclass DerivedTwo extends Parent { }\n Выберите единственное верное высказывание о следующем блоке кода:\nParent p = new Parent();\nDerivedOne d1 = new DerivedOne();\nDerivedTwo d2 = new DerivedTwo();\nd1 = (DerivedOne)d2;",
+        "options": [
+          "Ошибка компиляции.",
+          "Исключение RuntimeException.",
+          "Успешный запуск и отработка.",
+          "Исключение ClassCastException."
+        ],
+        "answer": [0]
+      },
+      {
+        "type": "single-select",
+        "question": "Птицы летают, ящерицы ползают. А птеродактили и летают, и ползают. Что наиболее верно по отношению к этим утверждениям?",
+        "options": [
+          "class Pterodactyl extends Crawlable, Flyable{}",
+          "class Pterodactyl implements Crawlable, Flyable{}",
+          "class Pterodactyl extends Flyable implements Crawlable{}",
+          "class Pterodactyl extends Crawlable implements Flyable{}"
+        ],
+        "answer": [2]
+      },
+      {
+        "type": "single-select",
+        "question": "Какой будет результат компиляции и выполнения кода?\npublic class Parent {\n  private void whoAreYou(){ System.out.println(\"I'm parent\"); }\n\n  public static void main(String []args){\n    Parent p = new Child();\n    p.whoAreYou();\n  }\n}\n\nclass Child extends Parent {\n  public void whoAreYou(){ System.out.println(\"I'm child\"); }\n} ",
+        "options": [
+          "I'm child",
+          "I'm parent",
+          "I'm child\nI'm parent",
+          "I'm parent\nI'm child",
+          "Ошибка компиляции",
+          "Ошибка выполнения"
+        ],
+        "answer": [1]
+      },
+      {
+        "type": "single-select",
+        "question": "Что напечатает следующий код: class A { }\nclass B extends A { }\nclass C extends B { }\n\npublic class Test {\n  public static void m(A a) {\n    System.out.println(\"a\");\n  }\n  public static void m(B b) {\n    System.out.println(\"b\");\n  }\n\n  public static void main(String[] args) {\n    m(new C());\n  }\n  } ",
+        "options": [
+          "b",
+          "Результат может варьироваться от запуска к запуску",
+          "a",
+          "Возникнет ошибка компиляции",
+          "Возникнет ошибка времени выполнения",
+          "Ничего не напечатает"
+        ],
+        "answer": [0]
+      }
+    ],
+    "scores": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "solved": "false"
+  },
+  {
+    "name": "Основы SQL",
+    "id": "sql",
+    "theme": "green",
+    "quizzes": [
+      {
+        "type": "multi-select",
+        "question": "Выберите количественные предикаты:",
+        "options": [
+          "UNION",
+          "EVERY",
+          "ANY",
+          "FULL",
+          "EXISTS",
+          "SOME",
+          "ALL"
+        ],
+        "answer": [
+          2,
+          5,
+          6
+        ]
+      },
+      {
+        "type": "single-select-item",
+        "question": "Инструкция языка SQL - ORDER BY определяет:",
+        "options": [
+          "Порядок выборки данных",
+          "Порядок сортировки результатов",
+          "Порядок сортировки полей при выборке",
+          "Ничего из вышеперечисленного"
+        ],
+        "answer": [1]
+      },
+      {
+        "type": "four-quarter",
+        "question": "Даны 2 таблицы А и В, которые содержат поле row, А содержит 10 записей, В содержит 5 записей. Сколько записей вернет следующий запрос:",
+        "options": [
+          "5",
+          "10",
+          "15",
+          "50"
+        ],
+        "answer": [3]
+      },
+      {
+        "type": "single-select",
+        "question": "Выберите верный синтаксис DELETE выражений.",
+        "options": [
+          "DELETE FROM HAVING",
+          "DELETE WHERE",
+          "DELETE FROM ORDER BY",
+          "DELETE FROM WHERE"
+        ],
+        "answer": [3]
+      },
+      {
+        "type": "true-false",
+        "question": "Может ли первичный(primary) ключ быть одновременно и внешним(foreign) ключом?",
+        "answer": true
+      },
+      {
+        "type": "single-select",
+        "question": "Чему эквивалентен следующий запрос: \nSELECT * FROM product WHERE price BETWEEN 100 AND 200; ",
+        "options": [
+          "DELETE FROM HAVING",
+          "DELETE WHERE",
+          "DELETE FROM ORDER BY",
+          "DELETE FROM WHERE"
+        ],
+        "answer": [3]
+      },
+      {
+        "type": "true-false",
+        "question": "Все перечисленные ключевые слова относятся к DML (Data Manipulation Language): INSERT, CREATE, DELETE, UPDATE.",
+        "answer": false
+      },
+      {
+        "type": "true-false",
+        "question": "Верно ли логически составлен следующий запрос:\nSELECT EMP_NAME, SUM(SAL) FROM EMPLOYEE; ",
+        "answer": false
+      },
+      {
+        "type": "multi-select",
+        "question": "Какими запросами можно получить все поля и записи таблицы Employers?",
+        "options": [
+          "SELECT [all] FROM Employers ",
+          "SELECT Employers",
+          "SELECT *.Employers ",
+          "SELECT * FROM Employers"
+        ],
+        "answer": [3]
+      },
+      {
+        "type": "single-select",
+        "question": "Какое ключевое слово используется для фильтрации значений, полученных в результате применения агрегирующих функций в результатах запроса с использованием GROUP BY?",
+        "options": [
+          "WHERE",
+          "HAVING",
+          "И WHERE, и HAVING",
+          "Ни одно из перечисленных"
+        ],
+        "answer": [1]
+      }
+    ],
+    "scores": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "solved": "false"
+  }
+]
