@@ -1,16 +1,17 @@
+---
 language: java
 script: ./gradlew
 jdk:
-  - openjdk7
-
+  - oraclejdk7
+  
 language: android
 android:
   components:
     # The BuildTools version used by project
-    - build-tools-20.0.0
+    - build-tools-23.0.2
 
     # The SDK version used to compile project
-    - android-20
+    - android-23
 
 before_install:
  - chmod +x gradlew
