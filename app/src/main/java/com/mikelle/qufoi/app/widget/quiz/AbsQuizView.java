@@ -34,7 +34,18 @@ import com.mikelle.qufoi.app.widget.fab.CheckableFab;
 
 /**
  * This is the base class for displaying a {@link Quiz}.
-*/
+ * <p>
+ * Subclasses need to implement {@link AbsQuizView#createQuizContentView()}
+ * in order to allow solution of a quiz.
+ * </p>
+ * <p>
+ * Also {@link AbsQuizView#allowAnswer(boolean)} needs to be called with
+ * <code>true</code> in order to mark the quiz solved.
+ * </p>
+ *
+ * @param <Q> The type of {@link Quiz} you want to
+ * display.
+ */
 public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
 
     private static final int ANSWER_HIDE_DELAY = 500;
@@ -54,6 +65,10 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
 
     /**
      * Enables creation of views for quizzes.
+     *
+     * @param context The context for this view.
+     * @param category The {@link Category} this view is running in.
+     * @param quiz The actual {@link Quiz} that is going to be displayed.
      */
     public AbsQuizView(Context context, Category category, Q quiz) {
         super(context);
@@ -131,6 +146,10 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
                 0, // right
                 mSpacingDouble); // bottom
         MarginLayoutParamsCompat.setMarginEnd(fabLayoutParams, mSpacingDouble);
+        if (ApiLevelHelper.isLowerThan(Build.VERSION_CODES.LOLLIPOP)) {
+            // Account for the fab's emulated shadow.
+            fabLayoutParams.topMargin -= (mSubmitAnswer.getPaddingTop() / 2);
+        }
         addView(mSubmitAnswer, fabLayoutParams);
     }
 
@@ -161,13 +180,35 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
         return mLayoutInflater;
     }
 
+    /**
+     * Implementations should create the content view for the type of
+     * {@link Quiz} they want to display.
+     *
+     * @return the created view to solve the quiz.
+     */
     protected abstract View createQuizContentView();
 
+    /**
+     * Implementations must make sure that the answer provided is evaluated and correctly rated.
+     *
+     * @return <code>true</code> if the question has been correctly answered, else
+     * <code>false</code>.
+     */
     protected abstract boolean isAnswerCorrect();
 
+    /**
+     * Save the user input to a bundle for orientation changes.
+     *
+     * @return The bundle containing the user's input.
+     */
     public abstract Bundle getUserInput();
 
-    abstract void setUserInput(Bundle savedInput);
+    /**
+     * Restore the user's input.
+     *
+     * @param savedInput The input that the user made in a prior instance of this view.
+     */
+    public abstract void setUserInput(Bundle savedInput);
 
     public Q getQuiz() {
         return mQuiz;
@@ -177,6 +218,11 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
         return mAnswered;
     }
 
+    /**
+     * Sets the quiz to answered or unanswered.
+     *
+     * @param answered <code>true</code> if an answer was selected, else <code>false</code>.
+     */
     protected void allowAnswer(final boolean answered) {
         if (null != mSubmitAnswer) {
             if (answered) {
@@ -188,12 +234,19 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
         }
     }
 
+    /**
+     * Sets the quiz to answered if it not already has been answered.
+     * Otherwise does nothing.
+     */
     protected void allowAnswer() {
         if (!isAnswered()) {
             allowAnswer(true);
         }
     }
 
+    /**
+     * Allows children to submit an answer via code.
+     */
     protected void submitAnswer() {
         submitAnswer(findViewById(R.id.submitAnswer));
     }
@@ -205,14 +258,21 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
         performScoreAnimation(answerCorrect);
     }
 
+    /**
+     * Animates the view nicely when the answer has been submitted.
+     *
+     * @param answerCorrect <code>true</code> if the answer was correct, else <code>false</code>.
+     */
     private void performScoreAnimation(final boolean answerCorrect) {
         ((QuizActivity) getContext()).lockIdlingResource();
+        // Decide which background color to use.
         final int backgroundColor = ContextCompat.getColor(getContext(),
                 answerCorrect ? R.color.green : R.color.red);
         adjustFab(answerCorrect, backgroundColor);
         resizeView();
         moveViewOffScreen(answerCorrect);
-
+        // Animate the foreground color to match the background color.
+        // This overlays all content within the current view.
         animateForegroundColor(backgroundColor);
     }
 
@@ -231,7 +291,8 @@ public abstract class AbsQuizView<Q extends Quiz> extends FrameLayout {
 
     private void resizeView() {
         final float widthHeightRatio = (float) getHeight() / (float) getWidth();
-
+        // Animate X and Y scaling separately to allow different start delays.
+        // object animators for x and y with different durations and then run them independently
         resizeViewProperty(View.SCALE_X, .5f, 200);
         resizeViewProperty(View.SCALE_Y, .5f / widthHeightRatio, 300);
     }

@@ -16,7 +16,7 @@ import com.mikelle.qufoi.app.model.JsonAttributes;
 import com.mikelle.qufoi.app.model.Theme;
 import com.mikelle.qufoi.app.model.quiz.AlphaPickerQuiz;
 import com.mikelle.qufoi.app.model.quiz.FillBlankQuiz;
-
+import com.mikelle.qufoi.app.model.quiz.FillTwoBlanksQuiz;
 import com.mikelle.qufoi.app.model.quiz.FourQuarterQuiz;
 import com.mikelle.qufoi.app.model.quiz.MultiSelectQuiz;
 import com.mikelle.qufoi.app.model.quiz.PickerQuiz;
@@ -65,6 +65,10 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Gets all categories with their quizzes.
+     *
+     * @param context The context this is running in.
+     * @param fromDatabase <code>true</code> if a data refresh is needed, else <code>false</code>.
+     * @return All categories stored in the database.
      */
     public static List<Category> getCategories(Context context, boolean fromDatabase) {
         if (null == mCategories || fromDatabase) {
@@ -77,9 +81,21 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         Cursor data = QufoiDatabaseHelper.getCategoryCursor(context);
         List<Category> tmpCategories = new ArrayList<>(data.getCount());
         final SQLiteDatabase readableDatabase = QufoiDatabaseHelper.getReadableDatabase(context);
+        do {
+            final Category category = getCategory(data, readableDatabase);
+            tmpCategories.add(category);
+        } while (data.moveToNext());
         return tmpCategories;
     }
 
+
+    /**
+     * Gets all categories wrapped in a {@link Cursor} positioned at it's first element.
+     * <p>There are <b>no quizzes</b> within the categories obtained from this cursor</p>
+     *
+     * @param context The context this is running in.
+     * @return All categories stored in the database.
+     */
     private static Cursor getCategoryCursor(Context context) {
         SQLiteDatabase readableDatabase = getReadableDatabase(context);
         Cursor data = readableDatabase
@@ -88,7 +104,14 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    private static void getCategory(Cursor cursor, SQLiteDatabase readableDatabase) {
+    /**
+     * Gets a category from the given position of the cursor provided.
+     *
+     * @param cursor The Cursor containing the data.
+     * @param readableDatabase The database that contains the quizzes.
+     * @return The found category.
+     */
+    private static Category getCategory(Cursor cursor, SQLiteDatabase readableDatabase) {
         // "magic numbers" based on CategoryTable#PROJECTION
         final String id = cursor.getString(0);
         final String name = cursor.getString(1);
@@ -96,11 +119,10 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         final Theme theme = Theme.valueOf(themeName);
         final String isSolved = cursor.getString(3);
         final boolean solved = getBooleanFromDatabase(isSolved);
-        final int[] scores = JsonHelper.INSTANCE.jsonArrayToIntArray(cursor.getString(4));
+        final int[] scores = JsonHelper.jsonArrayToIntArray(cursor.getString(4));
 
         final List<Quiz> quizzes = getQuizzes(id, readableDatabase);
-        //return new Category(name, id, theme, (List<? extends Quiz<Object>>) quizzes, scores, solved);
-
+        return new Category(name, id, theme, quizzes, scores, solved);
     }
 
     private static boolean getBooleanFromDatabase(String isSolved) {
@@ -108,15 +130,29 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         return null != isSolved && isSolved.length() == 1 && Integer.valueOf(isSolved) == 1;
     }
 
-    public static void getCategoryWith(Context context, String categoryId) {
+    /**
+     * Looks for a category with a given id.
+     *
+     * @param context The context this is running in.
+     * @param categoryId Id of the category to look for.
+     * @return The found category.
+     */
+    public static Category getCategoryWith(Context context, String categoryId) {
         SQLiteDatabase readableDatabase = getReadableDatabase(context);
         String[] selectionArgs = {categoryId};
         Cursor data = readableDatabase
                 .query(CategoryTable.NAME, CategoryTable.PROJECTION, CategoryTable.COLUMN_ID + "=?",
                         selectionArgs, null, null, null);
         data.moveToFirst();
+        return getCategory(data, readableDatabase);
     }
 
+    /**
+     * Scooooooooooore!
+     *
+     * @param context The context this is running in.
+     * @return The score over all Categories.
+     */
     public static int getScore(Context context) {
         final List<Category> categories = getCategories(context, false);
         int score = 0;
@@ -126,6 +162,12 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         return score;
     }
 
+    /**
+     * Updates values for a category.
+     *
+     * @param context The context this is running in.
+     * @param category The category to update.
+     */
     public static void updateCategory(Context context, Category category) {
         if (mCategories != null && mCategories.contains(category)) {
             final int location = mCategories.indexOf(category);
@@ -136,11 +178,17 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         ContentValues categoryValues = createContentValuesFor(category);
         writableDatabase.update(CategoryTable.NAME, categoryValues, CategoryTable.COLUMN_ID + "=?",
                 new String[]{category.getId()});
-        final List<Quiz<Object>> quizzes = category.getQuizzes();
+        final List<Quiz> quizzes = category.getQuizzes();
         updateQuizzes(writableDatabase, quizzes);
     }
 
-    private static void updateQuizzes(SQLiteDatabase writableDatabase, List<Quiz<Object>> quizzes) {
+    /**
+     * Updates a list of given quizzes.
+     *
+     * @param writableDatabase The database to write the quizzes to.
+     * @param quizzes The quizzes to write.
+     */
+    private static void updateQuizzes(SQLiteDatabase writableDatabase, List<Quiz> quizzes) {
         Quiz quiz;
         ContentValues quizValues = new ContentValues();
         String[] quizArgs = new String[1];
@@ -155,6 +203,11 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Resets the contents of Qufoi's database to it's initial state.
+     *
+     * @param context The context this is running in.
+     */
     public static void reset(Context context) {
         SQLiteDatabase writableDatabase = getWritableDatabase(context);
         writableDatabase.delete(CategoryTable.NAME, null, null);
@@ -162,6 +215,13 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         getInstance(context).preFillDatabase(writableDatabase);
     }
 
+    /**
+     * Creates objects for quizzes according to a category id.
+     *
+     * @param categoryId The category to create quizzes for.
+     * @param database The database containing the quizzes.
+     * @return The found quizzes or an empty list if none were available.
+     */
     private static List<Quiz> getQuizzes(final String categoryId, SQLiteDatabase database) {
         final List<Quiz> quizzes = new ArrayList<>();
         final Cursor cursor = database.query(QuizTable.NAME, QuizTable.PROJECTION,
@@ -174,6 +234,13 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         return quizzes;
     }
 
+    /**
+     * Creates a quiz corresponding to the projection provided from a cursor row.
+     * Currently only {@link QuizTable#PROJECTION} is supported.
+     *
+     * @param cursor The Cursor containing the data.
+     * @return The created quiz.
+     */
     private static Quiz createQuizDueToType(Cursor cursor) {
         // "magic numbers" based on QuizTable#PROJECTION
         final String type = cursor.getString(2);
@@ -192,6 +259,9 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
             case JsonAttributes.QuizType.FILL_BLANK: {
                 return createFillBlankQuiz(cursor, question, answer, solved);
             }
+            case JsonAttributes.QuizType.FILL_TWO_BLANKS: {
+                return createFillTwoBlanksQuiz(question, answer, solved);
+            }
             case JsonAttributes.QuizType.FOUR_QUARTER: {
                 return createFourQuarterQuiz(question, answer, options, solved);
             }
@@ -209,6 +279,10 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
             case JsonAttributes.QuizType.TOGGLE_TRANSLATE: {
                 return createToggleTranslateQuiz(question, answer, options, solved);
             }
+            case JsonAttributes.QuizType.TRUE_FALSE: {
+                return createTrueFalseQuiz(question, answer, solved);
+
+            }
             default: {
                 throw new IllegalArgumentException("Quiz type " + type + " is not supported");
             }
@@ -222,48 +296,63 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         return new FillBlankQuiz(question, answer, start, end, solved);
     }
 
+    private static Quiz createFillTwoBlanksQuiz(String question, String answer, boolean solved) {
+        final String[] answerArray = JsonHelper.jsonArrayToStringArray(answer);
+        return new FillTwoBlanksQuiz(question, answerArray, solved);
+    }
+
     private static Quiz createFourQuarterQuiz(String question, String answer,
                                               String options, boolean solved) {
-        final int[] answerArray = JsonHelper.INSTANCE.jsonArrayToIntArray(answer);
-        final String[] optionsArray = JsonHelper.INSTANCE.jsonArrayToStringArray(options);
+        final int[] answerArray = JsonHelper.jsonArrayToIntArray(answer);
+        final String[] optionsArray = JsonHelper.jsonArrayToStringArray(options);
         return new FourQuarterQuiz(question, answerArray, optionsArray, solved);
     }
 
     private static Quiz createMultiSelectQuiz(String question, String answer,
                                               String options, boolean solved) {
-        final int[] answerArray = JsonHelper.INSTANCE.jsonArrayToIntArray(answer);
-        final String[] optionsArray = JsonHelper.INSTANCE.jsonArrayToStringArray(options);
+        final int[] answerArray = JsonHelper.jsonArrayToIntArray(answer);
+        final String[] optionsArray = JsonHelper.jsonArrayToStringArray(options);
         return new MultiSelectQuiz(question, answerArray, optionsArray, solved);
     }
 
     private static Quiz createSelectItemQuiz(String question, String answer,
                                              String options, boolean solved) {
-        final int[] answerArray = JsonHelper.INSTANCE.jsonArrayToIntArray(answer);
-        final String[] optionsArray = JsonHelper.INSTANCE.jsonArrayToStringArray(options);
+        final int[] answerArray = JsonHelper.jsonArrayToIntArray(answer);
+        final String[] optionsArray = JsonHelper.jsonArrayToStringArray(options);
         return new SelectItemQuiz(question, answerArray, optionsArray, solved);
     }
 
     private static Quiz createToggleTranslateQuiz(String question, String answer,
                                                   String options, boolean solved) {
-        final int[] answerArray = JsonHelper.INSTANCE.jsonArrayToIntArray(answer);
+        final int[] answerArray = JsonHelper.jsonArrayToIntArray(answer);
         final String[][] optionsArrays = extractOptionsArrays(options);
         return new ToggleTranslateQuiz(question, answerArray, optionsArrays, solved);
     }
 
-    private static void createTrueFalseQuiz(String question, String answer, boolean solved) {
-
+    private static Quiz createTrueFalseQuiz(String question, String answer, boolean solved) {
+    /*
+     * parsing json with the potential values "true" and "false"
+     * see res/raw/categories.json for reference
+     */
         final boolean answerValue = "true".equals(answer);
+        return new TrueFalseQuiz(question, answerValue, solved);
     }
 
     private static String[][] extractOptionsArrays(String options) {
-        final String[] optionsLvlOne = JsonHelper.INSTANCE.jsonArrayToStringArray(options);
+        final String[] optionsLvlOne = JsonHelper.jsonArrayToStringArray(options);
         final String[][] optionsArray = new String[optionsLvlOne.length][];
         for (int i = 0; i < optionsLvlOne.length; i++) {
-            optionsArray[i] = JsonHelper.INSTANCE.jsonArrayToStringArray(optionsLvlOne[i]);
+            optionsArray[i] = JsonHelper.jsonArrayToStringArray(optionsLvlOne[i]);
         }
         return optionsArray;
     }
 
+    /**
+     * Creates the content values to update a category in the database.
+     *
+     * @param category The category to update.
+     * @return ContentValues containing updatable data.
+     */
     private static ContentValues createContentValuesFor(Category category) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CategoryTable.COLUMN_SOLVED, category.isSolved());
@@ -281,6 +370,10 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        /*
+         * create the category table first, as quiz table has a foreign key
+         * constraint on category id
+         */
         db.execSQL(CategoryTable.CREATE);
         db.execSQL(QuizTable.CREATE);
         preFillDatabase(db);
@@ -288,6 +381,7 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        /* no-op */
     }
 
     private void preFillDatabase(SQLiteDatabase db) {
@@ -360,6 +454,14 @@ public class QufoiDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Puts a non-empty string to ContentValues provided.
+     *
+     * @param values The place where the data should be put.
+     * @param quiz The quiz potentially containing the data.
+     * @param jsonKey The key to look for.
+     * @param contentKey The key use for placing the data in the database.
+     */
     private void putNonEmptyString(ContentValues values, JSONObject quiz, String jsonKey,
                                    String contentKey) {
         final String stringToPut = quiz.optString(jsonKey, null);

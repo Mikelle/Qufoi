@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import com.mikelle.qufoi.app.model.Category;
 import com.mikelle.qufoi.app.model.quiz.AlphaPickerQuiz;
 import com.mikelle.qufoi.app.model.quiz.FillBlankQuiz;
-
+import com.mikelle.qufoi.app.model.quiz.FillTwoBlanksQuiz;
 import com.mikelle.qufoi.app.model.quiz.FourQuarterQuiz;
 import com.mikelle.qufoi.app.model.quiz.MultiSelectQuiz;
 import com.mikelle.qufoi.app.model.quiz.PickerQuiz;
@@ -18,8 +18,8 @@ import com.mikelle.qufoi.app.model.quiz.ToggleTranslateQuiz;
 import com.mikelle.qufoi.app.model.quiz.TrueFalseQuiz;
 import com.mikelle.qufoi.app.widget.quiz.AbsQuizView;
 import com.mikelle.qufoi.app.widget.quiz.AlphaPickerQuizView;
-
-
+import com.mikelle.qufoi.app.widget.quiz.FillBlankQuizView;
+import com.mikelle.qufoi.app.widget.quiz.FillTwoBlanksQuizView;
 import com.mikelle.qufoi.app.widget.quiz.FourQuarterQuizView;
 import com.mikelle.qufoi.app.widget.quiz.MultiSelectQuizView;
 import com.mikelle.qufoi.app.widget.quiz.PickerQuizView;
@@ -38,7 +38,7 @@ import java.util.Set;
 public class QuizAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private final List<Quiz<Object>> mQuizzes;
+    private final List<Quiz> mQuizzes;
     private final Category mCategory;
     private final int mViewTypeCount;
     private List<String> mQuizTypes;
@@ -113,6 +113,10 @@ public class QuizAdapter extends BaseAdapter {
         switch (quiz.getType()) {
             case ALPHA_PICKER:
                 return new AlphaPickerQuizView(mContext, mCategory, (AlphaPickerQuiz) quiz);
+            case FILL_BLANK:
+                return new FillBlankQuizView(mContext, mCategory, (FillBlankQuiz) quiz);
+            case FILL_TWO_BLANKS:
+                return new FillTwoBlanksQuizView(mContext, mCategory, (FillTwoBlanksQuiz) quiz);
             case FOUR_QUARTER:
                 return new FourQuarterQuizView(mContext, mCategory, (FourQuarterQuiz) quiz);
             case MULTI_SELECT:

@@ -9,6 +9,7 @@ import com.mikelle.qufoi.app.model.JsonAttributes;
 public enum QuizType {
     ALPHA_PICKER(JsonAttributes.QuizType.ALPHA_PICKER, AlphaPickerQuiz.class),
     FILL_BLANK(JsonAttributes.QuizType.FILL_BLANK, FillBlankQuiz.class),
+    FILL_TWO_BLANKS(JsonAttributes.QuizType.FILL_TWO_BLANKS, FillTwoBlanksQuiz.class),
     FOUR_QUARTER(JsonAttributes.QuizType.FOUR_QUARTER, FourQuarterQuiz.class),
     MULTI_SELECT(JsonAttributes.QuizType.MULTI_SELECT, MultiSelectQuiz.class),
     PICKER(JsonAttributes.QuizType.PICKER, PickerQuiz.class),
